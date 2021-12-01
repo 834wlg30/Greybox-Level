@@ -49,8 +49,10 @@ public class PatrolState : MonoBehaviour, IFSMState
 
     public FSMStateType shouldTransitionToState()
     {
+        
         if (sightline.targetInSight)
         {
+            Debug.Log("Checking for transition");
             return FSMStateType.Chase;
         }
 

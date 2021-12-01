@@ -57,10 +57,12 @@ public class ChaseState : MonoBehaviour, IFSMState
     {
         if(agent.remainingDistance <= minChaseDist)
         {
+            Debug.Log("Target in range");
             return FSMStateType.Attack;
         }
         else if (!sightline.targetInSight)
         {
+            Debug.Log("Lost sight of target");
             return FSMStateType.Patrol;
         }
 
