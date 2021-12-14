@@ -49,6 +49,11 @@ namespace StarterAssets
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
 
+		public void OnQuit(InputValue value)
+        {
+			Application.Quit();
+        }
+
 
 		public void MoveInput(Vector2 newMoveDirection)
 		{

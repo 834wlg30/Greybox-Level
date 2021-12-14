@@ -31,6 +31,7 @@ public class Health : MonoBehaviour
             _health = value;
             if (HP >= 100f)
             {
+                gm.gameOver();
                 if (deathEffect != null)
                 {
                     Instantiate(deathEffect, transform.position, transform.rotation);

@@ -55,11 +55,8 @@ public class ChaseState : MonoBehaviour, IFSMState
 
     public void doAction()
     {
-        if (plrHP.HP >= 100f)
-        {
-            mSpeed = 2.5f;
-            agent.SetDestination(sightline.lastKnownPos);
-        }
+        mSpeed = 2.5f;
+        agent.SetDestination(sightline.lastKnownPos);
     }
 
     public void onExit()
@@ -70,9 +67,9 @@ public class ChaseState : MonoBehaviour, IFSMState
 
     public FSMStateType shouldTransitionToState()
     {
-        if (agent.remainingDistance <= minChaseDist && plrHP.HP >= 100f)
+        if (plrHP.HP >= 100f)
         {
-            Debug.Log("Target in range");
+            Debug.Log("Target Caught");
             GameManager.GM.gameOver();
             return FSMStateType.None;
         }

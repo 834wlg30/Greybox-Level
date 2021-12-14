@@ -45,17 +45,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerDetected) { plrHP.HP += 0.4f; }
-        else if (plrHP.HP > 0) { plrHP.HP -= 0.5f; }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        if (plrHP.HP >= 100f) { gameOver();  }
     }
 
     private void FixedUpdate()
     {
+        if (playerDetected) { plrHP.HP += 1f; }
+        else if (plrHP.HP > 0) { plrHP.HP -= 0.5f; }
+
         if (infoTime < 500)
         {
             infoTime++;
@@ -63,6 +60,7 @@ public class GameManager : MonoBehaviour
         else
         {
             infoPanel.gameObject.SetActive(false);
+            infoPanel = null;
         }
     }
 
