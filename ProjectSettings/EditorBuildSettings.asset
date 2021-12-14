@@ -5,11 +5,17 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 63eaffa419aa3e94e9eb96a7a3c55dda
   - enabled: 1
     path: Assets/Scenes/Greybox.unity
     guid: fff28db575b12bd4aa36e1aea97ae985
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: dcecd6ee349ec684397bc6ec5cf7bb78
+  - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: 1480cf90b66989044bbeb3b9bec9865b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

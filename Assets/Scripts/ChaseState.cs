@@ -7,7 +7,9 @@ using UnityEngine.AI;
 
 public class ChaseState : MonoBehaviour, IFSMState
 {
-    public float mSpeed = 2.5f;
+
+
+    public float mSpeed = 1.5f;
     public float accel = 3.0f;
     public float aSpeed = 720.0f;
     public float fov = 60.0f;
@@ -15,18 +17,24 @@ public class ChaseState : MonoBehaviour, IFSMState
 
     public FSMStateType stateName { get { return FSMStateType.Chase; } }
 
-    private readonly float minChaseDist = 2.0f;
+    private readonly float minChaseDist = 2.5f;
     private float initFOV = 0.0f;
 
     private NavMeshAgent agent;
     private Sightline sightline;
     private Animator animator;
+    [SerializeField] private GameManager gm;
+    [SerializeField] private Health plrHP;
+    private AudioSource alertSound;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         sightline = GetComponent<Sightline>();
         animator = GetComponent<Animator>();
+        alertSound = GetComponent<AudioSource>();
+
+        plrHP = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
     }
 
     public void onEnter()
@@ -39,12 +47,19 @@ public class ChaseState : MonoBehaviour, IFSMState
         agent.acceleration = accel;
         agent.angularSpeed = aSpeed;
 
+        gm.playerDetected = true;
+        alertSound.Play();
+
         animator.SetBool(animRunParam, true);
     }
 
     public void doAction()
     {
-        agent.SetDestination(sightline.lastKnownPos);
+        if (plrHP.HP >= 100f)
+        {
+            mSpeed = 2.5f;
+            agent.SetDestination(sightline.lastKnownPos);
+        }
     }
 
     public void onExit()
@@ -55,14 +70,16 @@ public class ChaseState : MonoBehaviour, IFSMState
 
     public FSMStateType shouldTransitionToState()
     {
-        if(agent.remainingDistance <= minChaseDist)
+        if (agent.remainingDistance <= minChaseDist && plrHP.HP >= 100f)
         {
             Debug.Log("Target in range");
-            return FSMStateType.Attack;
+            GameManager.GM.gameOver();
+            return FSMStateType.None;
         }
         else if (!sightline.targetInSight)
         {
             Debug.Log("Lost sight of target");
+            gm.playerDetected = false;
             return FSMStateType.Patrol;
         }
 

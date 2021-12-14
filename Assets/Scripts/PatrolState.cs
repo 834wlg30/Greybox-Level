@@ -19,12 +19,14 @@ public class PatrolState : MonoBehaviour, IFSMState
     private NavMeshAgent agent;
     private Sightline sightline;
     private Animator animator;
+    [SerializeField] private GameManager gm;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         sightline = GetComponent<Sightline>();
         animator = GetComponent<Animator>();
+
     }
 
     public void onEnter()
@@ -33,6 +35,8 @@ public class PatrolState : MonoBehaviour, IFSMState
         agent.speed = mSpeed;
         agent.acceleration = accel;
         agent.angularSpeed = aSpeed;
+
+        gm.playerDetected = false;
 
         animator.SetBool(animRunParam, false);
     }

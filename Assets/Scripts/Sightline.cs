@@ -6,15 +6,15 @@ public class Sightline : MonoBehaviour
 {
     public Transform eyePoint;
     public string targetTag = "Player";
-    public float fov = 30f;
+    public float fov = 45f;
     public bool targetInSight { get; set; } = false;
     public Vector3 lastKnownPos { get; set; } = Vector3.zero;
 
-    private SphereCollider collider;
+    private SphereCollider collide;
 
     private void Awake()
     {
-        collider = GetComponent<SphereCollider>();
+        collide = GetComponent<SphereCollider>();
         lastKnownPos = transform.position;
     }
 
@@ -38,10 +38,12 @@ public class Sightline : MonoBehaviour
 
     private bool canSeeTarget(Transform tgt)
     {
+        Debug.Log("Checking for obstructions");
         RaycastHit info;
-        Vector3 dirToTgt = (tgt.position - eyePoint.position).normalized;
+        Vector3 dirToTgt = ((tgt.position - eyePoint.position) + new Vector3(0,1,0)).normalized;
 
-        if(Physics.Raycast(eyePoint.position, dirToTgt, out info, collider.radius))
+        Debug.DrawRay(eyePoint.position, dirToTgt, Color.cyan, 0, false);
+        if(Physics.Raycast(eyePoint.position, dirToTgt, out info, 15))
         {
             if (info.transform.CompareTag(targetTag))
             {
@@ -58,7 +60,7 @@ public class Sightline : MonoBehaviour
         Vector3 dirToTgt = tgt.position - eyePoint.position;
         float angle = Vector3.Angle(eyePoint.forward, dirToTgt);
 
-        if(angle <= fov)
+        if(Mathf.Abs(angle) <= fov)
         {
             Debug.Log("Target in FOV");
             return true;

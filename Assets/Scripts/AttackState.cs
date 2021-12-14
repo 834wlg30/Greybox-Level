@@ -29,6 +29,7 @@ public class AttackState : MonoBehaviour
 
     public void onEnter()
     {
+        Debug.Log("Attacking Player");
         StartCoroutine(Attack());
     }
 
